@@ -1,0 +1,11 @@
+.env
+.env.local
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# 로컬 실행 산출물
+_preview_out.txt
+full_benchmark_log.txt

@@ -4,17 +4,18 @@ fewshot/model_runner.py
 Ollama(로컬)와 GLM API를 통해 모델을 호출하는 모듈.
 
 지원 모델:
-    - gemma3        → Ollama (로컬, 무료)
+    - gemma3        → Ollama (로컬, 무료, API 키·HuggingFace 토큰 불필요)
     - qwen2.5-coder → Ollama (로컬, 무료)
-    - glm-4-flash   → Zhipu AI API (무료 티어)
+    - glm-4-flash   → Zhipu AI API (키 필요)
 
-사용 전 준비:
-    # Ollama 설치 후 모델 다운로드
-    ollama pull gemma3
-    ollama pull qwen2.5-coder
+Ollama 쪽 model 문자열은 `ollama list`에 보이는 이름과 같아야 합니다.
+짧은 이름(gemma3)만 쓴 경우 서버의 태그 목록으로 자동 보완합니다.
+정확히 고정하려면 환경변수:
+    OLLAMA_MODEL_GEMMA3=gemma3:12b
+    OLLAMA_MODEL_QWEN2_5_CODER=qwen2.5-coder:14b
 
-    # GLM API 키 발급: https://open.bigmodel.cn
-    # .env 파일에 추가: GLM_API_KEY=your_key_here
+GLM만 쓸 때:
+    # .env 또는 환경변수: GLM_API_KEY=...
 """
 
 import json
@@ -39,10 +40,45 @@ MODEL_CONFIG = {
     "glm-4-flash":   {"type": "glm",    "model": "glm-4-flash"},
 }
 
+# logical_key → env: `ollama list`와 동일한 전체 이름을 강제할 때 사용
+_OLLAMA_ENV_BY_KEY = {
+    "gemma3": "OLLAMA_MODEL_GEMMA3",
+    "qwen2.5-coder": "OLLAMA_MODEL_QWEN2_5_CODER",
+}
+
+
+def _ollama_model_id_for_key(model_key: str) -> str:
+    """config 기본값 또는 환경변수로 Ollama에 넘길 model id."""
+    env_name = _OLLAMA_ENV_BY_KEY.get(model_key)
+    if env_name:
+        override = os.getenv(env_name, "").strip()
+        if override:
+            return override
+    return MODEL_CONFIG[model_key]["model"]
+
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Ollama 호출
 # ──────────────────────────────────────────────────────────────────────────────
+
+def _resolve_ollama_model_name(short: str) -> str:
+    """
+    `ollama pull gemma3` 처럼 태그 없이 쓴 이름과, 실제 설치된 `gemma3:27b` 이름을 맞춥니다.
+    """
+    try:
+        req = urllib.request.Request(f"{OLLAMA_BASE_URL}/api/tags")
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+        names = [m["name"] for m in data.get("models", [])]
+    except Exception:
+        return short
+    if short in names:
+        return short
+    for n in names:
+        if n.startswith(short + ":"):
+            return n
+    return short
+
 
 def _call_ollama(model: str, prompt: str, timeout: int = 120) -> str:
     """
@@ -56,6 +92,7 @@ def _call_ollama(model: str, prompt: str, timeout: int = 120) -> str:
     Returns:
         모델이 생성한 텍스트 (Python 코드)
     """
+    model = _resolve_ollama_model_name(model)
     payload = json.dumps({
         "model": model,
         "prompt": prompt,
@@ -76,7 +113,27 @@ def _call_ollama(model: str, prompt: str, timeout: int = 120) -> str:
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
             data = json.loads(resp.read().decode("utf-8"))
+            if data.get("error"):
+                err = data["error"]
+                msg = f"Ollama 오류: {err}"
+                if "not found" in str(err).lower():
+                    msg += (
+                        f"\n→ 로컬에 해당 태그가 없을 수 있습니다. "
+                        f"`ollama pull {model!r}` 후 `ollama list`로 이름을 확인하세요. "
+                        f"또는 OLLAMA_MODEL_GEMMA3 / OLLAMA_MODEL_QWEN2_5_CODER 로 정확한 이름을 지정하세요."
+                    )
+                raise ConnectionError(msg)
             return data.get("response", "").strip()
+    except urllib.error.HTTPError as e:
+        body = e.read().decode("utf-8", errors="replace")
+        if e.code == 404:
+            raise ConnectionError(
+                f"Ollama 모델을 찾을 수 없습니다 (HTTP 404).\n"
+                f"→ `ollama list`의 model 이름과 일치하는지 확인하세요. (예: gemma3:12b)\n"
+                f"→ 환경변수 OLLAMA_MODEL_GEMMA3, OLLAMA_MODEL_QWEN2_5_CODER 로 지정 가능.\n"
+                f"응답: {body[:500]}"
+            ) from e
+        raise ConnectionError(f"Ollama HTTP {e.code}: {body[:500]}") from e
     except urllib.error.URLError as e:
         raise ConnectionError(
             f"Ollama 연결 실패: {e}\n"
@@ -169,7 +226,7 @@ def run_model(model_key: str, prompt: str, timeout: int = 120) -> dict:
 
     try:
         if config["type"] == "ollama":
-            output = _call_ollama(config["model"], prompt, timeout)
+            output = _call_ollama(_ollama_model_id_for_key(model_key), prompt, timeout)
         else:
             output = _call_glm(config["model"], prompt, timeout)
 

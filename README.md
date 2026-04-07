@@ -59,11 +59,22 @@ ollama pull gemma3          # ~5GB
 ollama pull qwen2.5-coder   # ~4GB
 ```
 
-## 2단계: GLM API 키 설정
+## 2단계: API 키 (선택)
+
+**Ollama만 쓰는 비교**(`--models gemma3 qwen2.5-coder` 등)에는 **별도 API 키나 Hugging Face 토큰이 필요 없습니다.** 로컬 `ollama serve`와 설치된 모델만 있으면 됩니다.
+
+`ollama list`에 나오는 이름이 `gemma3:12b`처럼 태그까지 붙어 있다면, 아래 환경변수로 벤치마크에 넘길 이름을 고정할 수 있습니다 (tsql2py의 `config.yaml` `model_name`과 같은 역할).
 
 ```bash
-cp .env.example .env
-# .env 파일 열어서 입력:
+# 예: PowerShell
+$env:OLLAMA_MODEL_GEMMA3 = "gemma3:12b"
+$env:OLLAMA_MODEL_QWEN2_5_CODER = "qwen2.5-coder:14b"
+```
+
+**GLM(클라우드)까지 3-way 비교**할 때만 Zhipu 키가 필요합니다.
+
+```bash
+# .env 또는 환경변수
 # GLM_API_KEY=your_key_here
 # API 키 발급: https://open.bigmodel.cn (무료 티어 있음)
 ```
@@ -80,6 +91,8 @@ python tests/test_fewshot_and_evaluation.py
 ## 4단계: 프롬프트 눈으로 확인
 
 ```bash
+# Windows 콘솔에서 유니코드 출력 오류가 나면:
+#   PowerShell: $env:PYTHONIOENCODING = "utf-8"
 python run_benchmark.py --preview
 # 프롬프트 내용이 화면에 출력됨
 # 예시 SQL + 예시 Python + 변환할 SQL 순서 확인
@@ -101,8 +114,10 @@ python run_benchmark.py --check-ollama
 
 ```bash
 python run_benchmark.py --mini
-# SQL 1개 × 3모델 = 3번 변환
-# 전체 실행 전 정상 동작 확인용
+# SQL 1개 × 3모델 = 3번 변환 (GLM 키 없으면 glm 단계는 실패할 수 있음)
+
+python run_benchmark.py --mini --models gemma3 qwen2.5-coder
+# Ollama만: 키 없이 2회 변환
 ```
 
 ## 7단계: 전체 벤치마크 실행

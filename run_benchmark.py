@@ -18,6 +18,10 @@ import os
 # 경로 설정 (어디서 실행해도 동작하도록)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from fewshot.examples import TEST_TARGETS
 from fewshot.prompt_builder import build_prompt, print_prompt_preview
 from fewshot.model_runner import run_model, check_ollama_status, MODEL_CONFIG
