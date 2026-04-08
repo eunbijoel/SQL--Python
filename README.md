@@ -1,4 +1,4 @@
-# BookStore SQL→Python Few-shot 벤치마크
+# SQL→Python Few-shot 벤치마크
 
 T-SQL 저장 프로시저를 Python으로 변환하는 Few-shot 프롬프트를 만들고,
 Gemma / Qwen / GLM 세 모델의 변환 성능을 자동으로 비교합니다.
