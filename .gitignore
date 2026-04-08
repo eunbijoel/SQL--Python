@@ -9,3 +9,6 @@ venv/
 # 로컬 실행 산출물
 _preview_out.txt
 full_benchmark_log.txt
+bench_ollama_glm_run.txt
+benchmark_run*.txt
+run_full_benchmark_latest.txt

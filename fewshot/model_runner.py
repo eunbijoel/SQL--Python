@@ -1,21 +1,21 @@
 """
 fewshot/model_runner.py
 ========================
-Ollama(로컬)와 GLM API를 통해 모델을 호출하는 모듈.
+기본은 Gemma / Qwen / GLM **모두 Ollama** `/api/generate` (API 키 불필요).
+원하면 MODEL_CONFIG에서 항목의 type을 \"glm\"으로 두어 Zhipu 클라우드 API를 쓸 수 있습니다.
 
-지원 모델:
-    - gemma3        → Ollama (로컬, 무료, API 키·HuggingFace 토큰 불필요)
-    - qwen2.5-coder → Ollama (로컬, 무료)
-    - glm-4-flash   → Zhipu AI API (키 필요)
+Ollama model 문자열은 `ollama list`와 동일해야 합니다 (태그 포함).
+짧은 이름만 쓴 경우 `/api/tags`로 자동 보완합니다.
 
-Ollama 쪽 model 문자열은 `ollama list`에 보이는 이름과 같아야 합니다.
-짧은 이름(gemma3)만 쓴 경우 서버의 태그 목록으로 자동 보완합니다.
-정확히 고정하려면 환경변수:
+환경변수로 이름 고정:
     OLLAMA_MODEL_GEMMA3=gemma3:12b
     OLLAMA_MODEL_QWEN2_5_CODER=qwen2.5-coder:14b
+    OLLAMA_MODEL_GLM=glm-4.7-flash:Q4_K_M
 
-GLM만 쓸 때:
-    # .env 또는 환경변수: GLM_API_KEY=...
+원격 Ollama(DGX, SSH 터널 등):
+    OLLAMA_BASE_URL=http://127.0.0.1:11434
+
+긴 출력: OLLAMA_NUM_PREDICT (기본 4096)
 """
 
 import json
@@ -23,27 +23,28 @@ import os
 import time
 import urllib.request
 import urllib.error
-from typing import Optional
-
-
 # ──────────────────────────────────────────────────────────────────────────────
 # 설정
 # ──────────────────────────────────────────────────────────────────────────────
 
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+OLLAMA_NUM_PREDICT = int(os.getenv("OLLAMA_NUM_PREDICT", "4096"))
+DEFAULT_GENERATE_TIMEOUT = int(os.getenv("OLLAMA_GENERATE_TIMEOUT", "300"))
 GLM_API_KEY     = os.getenv("GLM_API_KEY", "")
 GLM_API_URL     = "https://open.bigmodel.cn/api/paas/v4/chat/completions"
 
 MODEL_CONFIG = {
     "gemma3":        {"type": "ollama", "model": "gemma3"},
     "qwen2.5-coder": {"type": "ollama", "model": "qwen2.5-coder"},
-    "glm-4-flash":   {"type": "glm",    "model": "glm-4-flash"},
+    # GLM도 Ollama GGUF 등 로컬 태그로 실행 (sql2python config.yaml 과 동일한 이름)
+    "glm-4-flash":   {"type": "ollama", "model": "glm-4.7-flash:Q4_K_M"},
 }
 
 # logical_key → env: `ollama list`와 동일한 전체 이름을 강제할 때 사용
 _OLLAMA_ENV_BY_KEY = {
     "gemma3": "OLLAMA_MODEL_GEMMA3",
     "qwen2.5-coder": "OLLAMA_MODEL_QWEN2_5_CODER",
+    "glm-4-flash": "OLLAMA_MODEL_GLM",
 }
 
 
@@ -80,6 +81,11 @@ def _resolve_ollama_model_name(short: str) -> str:
     return short
 
 
+def ollama_resolved_id(model_key: str) -> str:
+    """진단용: logical 키에 대해 /api/tags 기준으로 최종 전달될 Ollama model 이름."""
+    return _resolve_ollama_model_name(_ollama_model_id_for_key(model_key))
+
+
 def _call_ollama(model: str, prompt: str, timeout: int = 120) -> str:
     """
     Ollama 로컬 서버에 프롬프트를 보내고 응답 텍스트를 반환합니다.
@@ -99,7 +105,7 @@ def _call_ollama(model: str, prompt: str, timeout: int = 120) -> str:
         "stream": False,
         "options": {
             "temperature": 0.1,   # 낮을수록 일관된 코드 출력
-            "num_predict": 1024,  # 최대 토큰 수
+            "num_predict": OLLAMA_NUM_PREDICT,
         }
     }).encode("utf-8")
 
@@ -120,7 +126,7 @@ def _call_ollama(model: str, prompt: str, timeout: int = 120) -> str:
                     msg += (
                         f"\n→ 로컬에 해당 태그가 없을 수 있습니다. "
                         f"`ollama pull {model!r}` 후 `ollama list`로 이름을 확인하세요. "
-                        f"또는 OLLAMA_MODEL_GEMMA3 / OLLAMA_MODEL_QWEN2_5_CODER 로 정확한 이름을 지정하세요."
+                        f"또는 OLLAMA_MODEL_GEMMA3 / OLLAMA_MODEL_QWEN2_5_CODER / OLLAMA_MODEL_GLM 으로 지정하세요."
                     )
                 raise ConnectionError(msg)
             return data.get("response", "").strip()
@@ -130,7 +136,7 @@ def _call_ollama(model: str, prompt: str, timeout: int = 120) -> str:
             raise ConnectionError(
                 f"Ollama 모델을 찾을 수 없습니다 (HTTP 404).\n"
                 f"→ `ollama list`의 model 이름과 일치하는지 확인하세요. (예: gemma3:12b)\n"
-                f"→ 환경변수 OLLAMA_MODEL_GEMMA3, OLLAMA_MODEL_QWEN2_5_CODER 로 지정 가능.\n"
+                f"→ 환경변수 OLLAMA_MODEL_GEMMA3, OLLAMA_MODEL_QWEN2_5_CODER, OLLAMA_MODEL_GLM 로 지정 가능.\n"
                 f"응답: {body[:500]}"
             ) from e
         raise ConnectionError(f"Ollama HTTP {e.code}: {body[:500]}") from e
@@ -196,7 +202,7 @@ def _call_glm(model: str, prompt: str, timeout: int = 60) -> str:
 # 통합 호출 함수
 # ──────────────────────────────────────────────────────────────────────────────
 
-def run_model(model_key: str, prompt: str, timeout: int = 120) -> dict:
+def run_model(model_key: str, prompt: str, timeout: int | None = None) -> dict:
     """
     모델 이름을 받아 적절한 API를 호출하고 결과를 반환합니다.
 
@@ -213,6 +219,9 @@ def run_model(model_key: str, prompt: str, timeout: int = 120) -> dict:
             "error":    오류 메시지 (성공 시 None),
         }
     """
+    if timeout is None:
+        timeout = DEFAULT_GENERATE_TIMEOUT
+
     if model_key not in MODEL_CONFIG:
         return {
             "model": model_key,
@@ -227,8 +236,10 @@ def run_model(model_key: str, prompt: str, timeout: int = 120) -> dict:
     try:
         if config["type"] == "ollama":
             output = _call_ollama(_ollama_model_id_for_key(model_key), prompt, timeout)
-        else:
+        elif config["type"] == "glm":
             output = _call_glm(config["model"], prompt, timeout)
+        else:
+            raise ValueError(f"Unknown backend type: {config['type']!r}")
 
         # 마크다운 코드 펜스 제거 (모델이 ```python ... ``` 로 감싸는 경우)
         output = _strip_code_fence(output)

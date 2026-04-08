@@ -3,10 +3,14 @@ evaluation/checker.py
 ======================
 모델이 출력한 Python 코드를 자동으로 평가합니다.
 
-검사 3가지:
-    1. 문법 검사  — ast.parse() 로 파싱 가능한가?
-    2. 패턴 검사  — ProcedureResult, try/except, 파라미터 검증 있는가?
-    3. 논리 검사  — Mock DB 로 실행했을 때 반환값이 SQL 의도와 일치하는가?
+검사 5가지 (종합 total_score 는 가중 평균):
+    1. 문법   — ast.parse + def 존재
+    2. 패턴   — 문자열 기반 필수 토큰 (few-shot 정렬용, 거친 층)
+    3. 논리   — Mock DB 실행 후 success/result_id
+    4. 정답 유사도 — procedures/*.py 해당 함수와 라인·AST 유사도 (정확도 핵심)
+    5. 스타일 루브릭 — Comparator 스타일(placeholder 균형, 위험 패턴 등)을 BookStore 관례에 맞게
+
+가중치(합 1.0): 문법 0.10, 패턴 0.10, 논리 0.22, 정답 0.38, 스타일 0.20
 
 설계 원칙:
     - 실제 DB 연결 없이 동작
@@ -17,6 +21,9 @@ evaluation/checker.py
 import ast
 import textwrap
 from typing import Optional
+
+from .gold_similarity import check_gold_similarity
+from .style_rubric import check_style_rubric
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -305,28 +312,42 @@ def evaluate(code: str, procedure_name: str) -> dict:
         "success": True, "has_result_id": False,
     })
     logic = check_logic(code, expected)
+    gold = check_gold_similarity(code, procedure_name)
+    style = check_style_rubric(code, procedure_name)
 
-    # 가중 평균: 문법 30% + 패턴 30% + 논리 40%
+    # 가중 평균 — 정답 유사도 비중 최대 (정확도 우선)
+    w_syn, w_pat, w_log, w_gold, w_sty = 0.10, 0.10, 0.22, 0.38, 0.20
     total = round(
-        syntax["score"]  * 0.30 +
-        pattern["score"] * 0.30 +
-        logic["score"]   * 0.40,
+        syntax["score"]  * w_syn +
+        pattern["score"] * w_pat +
+        logic["score"]   * w_log +
+        gold["score"]    * w_gold +
+        style["score"]   * w_sty,
         3
     )
 
+    # 기존: 3종만 만족 시 True (하위 호환)
     all_pass = syntax["pass"] and pattern["pass"] and logic["pass"]
+    # 엄격: 정답·스타일까지 (리포트용)
+    all_pass_strict = all_pass and gold["pass"] and style["pass"]
+
     summary = (
         f"총점 {total:.0%} | "
         f"문법({'O' if syntax['pass'] else 'X'}) "
         f"패턴({'O' if pattern['pass'] else 'X'}) "
-        f"논리({'O' if logic['pass'] else 'X'})"
+        f"논리({'O' if logic['pass'] else 'X'}) "
+        f"정답({'O' if gold['pass'] else 'X'}) "
+        f"스타일({'O' if style['pass'] else 'X'})"
     )
 
     return {
         "syntax":      syntax,
         "pattern":     pattern,
         "logic":       logic,
+        "gold":        gold,
+        "style":       style,
         "total_score": total,
         "all_pass":    all_pass,
+        "all_pass_strict": all_pass_strict,
         "summary":     summary,
     }

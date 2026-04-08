@@ -24,6 +24,8 @@ import unittest
 from fewshot.examples import EXAMPLES, TEST_TARGETS
 from fewshot.prompt_builder import build_prompt
 from evaluation.checker import check_syntax, check_patterns, evaluate
+from evaluation.gold_similarity import _read_gold_function, check_gold_similarity
+from evaluation.style_rubric import check_style_rubric
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -196,6 +198,34 @@ def add_author(firstname):
 
 
 # ──────────────────────────────────────────────────────────────────────────────
+# 테스트 3b: 정답 유사도 · 스타일 루브릭
+# ──────────────────────────────────────────────────────────────────────────────
+
+class TestGoldAndStyle(unittest.TestCase):
+
+    def test_정답_함수_자기자신과_유사도_높음(self):
+        g = _read_gold_function("usp_get_books_storebook")
+        self.assertIsNotNone(g)
+        r = check_gold_similarity(g, "usp_get_books_storebook")
+        self.assertGreaterEqual(r["score"], 0.95, r["reason"])
+
+    def test_엉뚱한_코드는_정답_유사도_낮음(self):
+        r = check_gold_similarity("def foo():\n    return 1", "usp_get_books_storebook")
+        self.assertLess(r["score"], 0.45)
+
+    def test_evaluate에_gold_style_키_존재(self):
+        ev = evaluate("def x():\n    pass", "usp_add_book_storebook")
+        self.assertIn("gold", ev)
+        self.assertIn("style", ev)
+        self.assertIn("all_pass_strict", ev)
+
+    def test_스타일_루브릭_기본_필드(self):
+        r = check_style_rubric("def f():\n    pass", "usp_add_book_storebook")
+        self.assertIn("details", r)
+        self.assertIn("score", r)
+
+
+# ──────────────────────────────────────────────────────────────────────────────
 # 테스트 4: TEST_TARGETS SQL이 모두 존재하는가?
 # ──────────────────────────────────────────────────────────────────────────────
 
@@ -234,7 +264,7 @@ if __name__ == "__main__":
     loader = unittest.TestLoader()
     suite  = unittest.TestSuite()
     for cls in [TestPromptBuilder, TestAnswerCodeQuality,
-                TestCheckerAccuracy, TestExamplesData]:
+                TestCheckerAccuracy, TestGoldAndStyle, TestExamplesData]:
         suite.addTests(loader.loadTestsFromTestCase(cls))
     runner = unittest.TextTestRunner(verbosity=2)
     result = runner.run(suite)

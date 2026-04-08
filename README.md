@@ -23,7 +23,7 @@ bookstore_bench/
 ├── fewshot/                    # Few-shot 핵심
 │   ├── examples.py             # 예시 쌍 (SQL→Python) + 테스트 타겟 SQL
 │   ├── prompt_builder.py       # 프롬프트 조립기
-│   └── model_runner.py         # Ollama(Gemma/Qwen) + GLM API 호출
+│   └── model_runner.py         # 기본: Gemma/Qwen/GLM 모두 Ollama (선택: Zhipu GLM)
 │
 ├── evaluation/                 # 자동 평가기
 │   ├── checker.py              # 검사 1(문법) + 검사 2(패턴) + 검사 3(논리)
@@ -59,25 +59,23 @@ ollama pull gemma3          # ~5GB
 ollama pull qwen2.5-coder   # ~4GB
 ```
 
-## 2단계: API 키 (선택)
+## 2단계: 모델 이름·환경 (API 키는 기본 불필요)
 
-**Ollama만 쓰는 비교**(`--models gemma3 qwen2.5-coder` 등)에는 **별도 API 키나 Hugging Face 토큰이 필요 없습니다.** 로컬 `ollama serve`와 설치된 모델만 있으면 됩니다.
+**기본 설정은 Gemma / Qwen / GLM 세 모두 Ollama** `/api/generate` 입니다. `glm-4-flash` 슬롯은 `ollama list`의 GGUF 태그(예: `glm-4.7-flash:Q4_K_M`)를 가리키며, **Zhipu API 키는 필요 없습니다.**
 
-`ollama list`에 나오는 이름이 `gemma3:12b`처럼 태그까지 붙어 있다면, 아래 환경변수로 벤치마크에 넘길 이름을 고정할 수 있습니다 (tsql2py의 `config.yaml` `model_name`과 같은 역할).
+`fewshot/model_runner.py`의 `MODEL_CONFIG`에서 GLM 기본 태그를 본인 서버에 맞게 바꾸거나, 환경변수로 덮어쓸 수 있습니다 (sql2python `config.yaml`의 `model_name`과 동일한 문자열).
 
 ```bash
 # 예: PowerShell
 $env:OLLAMA_MODEL_GEMMA3 = "gemma3:12b"
 $env:OLLAMA_MODEL_QWEN2_5_CODER = "qwen2.5-coder:14b"
+$env:OLLAMA_MODEL_GLM = "glm-4.7-flash:Q4_K_M"
+# 원격 Ollama: $env:OLLAMA_BASE_URL = "http://127.0.0.1:11434"
+# 긴 코드 생성: $env:OLLAMA_NUM_PREDICT = "4096"
+# 느린 GPU: $env:OLLAMA_GENERATE_TIMEOUT = "600"
 ```
 
-**GLM(클라우드)까지 3-way 비교**할 때만 Zhipu 키가 필요합니다.
-
-```bash
-# .env 또는 환경변수
-# GLM_API_KEY=your_key_here
-# API 키 발급: https://open.bigmodel.cn (무료 티어 있음)
-```
+**Zhipu 클라우드 GLM**을 쓰려면 `MODEL_CONFIG`에 별도 항목을 두고 `type: "glm"`으로 설정한 뒤 `GLM_API_KEY`를 넣으면 됩니다 (기본 glm 슬롯과 분리하는 편이 안전합니다).
 
 ## 3단계: 로컬 검증 (DB/Ollama 없이)
 
@@ -98,26 +96,34 @@ python run_benchmark.py --preview
 # 예시 SQL + 예시 Python + 변환할 SQL 순서 확인
 ```
 
-## 5단계: Ollama 상태 확인
+## 5단계: Ollama 모델 맞추기 · 상태 확인
+
+모델이 부족할 때는 루트의 `**setup_ollama_models.py**` 를 열어 두고 터미널을 옆에 두고 실행하면, 부족한 항목과 `ollama pull …` 예시가 같이 나옵니다.
+
+```bash
+python setup_ollama_models.py              # 설치 여부 + 복사용 pull 명령
+python setup_ollama_models.py --pull       # 없는 모델만 순서대로 pull (대화형)
+python setup_ollama_models.py --pull -y    # 확인 없이 pull (시간·용량 큼)
+```
+
+- **Qwen**: 보통 `ollama pull qwen2.5-coder` (원하는 태그는 [library](https://ollama.com/library) 참고).
+- **GLM GGUF** (`glm-4.7-flash:Q4_K_M` 등): 공식 `pull` 로 안 될 수 있음 → 그 PC에서 이미 쓰는 Modelfile/import 태그에 맞추거나 `OLLAMA_MODEL_GLM` / `MODEL_CONFIG` 로 이름 통일.
 
 ```bash
 ollama serve  # 별도 터미널에서 실행
 
 python run_benchmark.py --check-ollama
-# 예상 출력:
-# Ollama 실행 중 (설치된 모델: ['gemma3', 'qwen2.5-coder'])
-# O gemma3
-# O qwen2.5-coder
+# 각 logical 키 → 해석된 Ollama 이름 옆에 O/X
 ```
 
 ## 6단계: 빠른 미니 테스트 (SQL 1개)
 
 ```bash
 python run_benchmark.py --mini
-# SQL 1개 × 3모델 = 3번 변환 (GLM 키 없으면 glm 단계는 실패할 수 있음)
+# SQL 1개 × 3모델 = 3번 변환 (세 모델 모두 Ollama에 있어야 함)
 
 python run_benchmark.py --mini --models gemma3 qwen2.5-coder
-# Ollama만: 키 없이 2회 변환
+# GLM 슬롯 제외 시 2회 변환
 ```
 
 ## 7단계: 전체 벤치마크 실행
@@ -171,11 +177,19 @@ usp_add_book_storebook         100% [O] (7.4s)   100% [O]  (5.8s)  87% [X]  (2.9
 
 ## 평가 기준
 
+종합 **총점**은 아래 가중 평균입니다. **정답 유사도**가 가장 큽니다 (정확도 우선).
+
 | 검사 | 가중치 | 내용 |
-|---|---|---|
-| 문법 검사 | 30% | `ast.parse()` 통과, `def` 함수 존재 |
-| 패턴 검사 | 30% | `ProcedureResult` / `get_db_cursor` / `try-except` |
-| 논리 검사 | 40% | Mock DB로 실행 → `success`, `result_id` 반환값 확인 |
+| --- | --- | --- |
+| 문법 | 10% | `ast.parse()` 통과, `def` 함수 존재 |
+| 패턴 | 10% | 문자열 기준 `ProcedureResult` / `get_db_cursor` / `try` (few-shot 정렬용) |
+| 논리 | 22% | Mock DB로 실행 → `success`, `result_id` 등 (휴리스틱 인자) |
+| **정답 유사도** | **38%** | `procedures/*.py` 해당 함수와 라인·AST 유사도 (`difflib` 등) |
+| 스타일 루브릭 | 20% | Comparator 스타일: `?`/인자 균형, 위험 패턴, `get_db_cursor` 등 |
+
+표의 `[O]`/`[X]`는 기존과 같이 **문법·패턴·논리** 3종만 모두 통과일 때 `O`입니다.  
+`run_benchmark.py --detail` 출력에 **정답·스타일·엄격통과**(5종 전부)가 추가로 나옵니다.
+
 
 ---
 
@@ -193,3 +207,4 @@ usp_add_book_storebook         100% [O] (7.4s)   100% [O]  (5.8s)  87% [X]  (2.9
 2. `fewshot/examples.py`의 `TEST_TARGETS` 리스트에 항목 추가
 3. `evaluation/checker.py`의 `EXPECTED_BY_PROCEDURE`에 기대값 추가
 4. `python run_benchmark.py` 재실행
+

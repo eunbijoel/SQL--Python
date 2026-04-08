@@ -24,7 +24,7 @@ load_dotenv()
 
 from fewshot.examples import TEST_TARGETS
 from fewshot.prompt_builder import build_prompt, print_prompt_preview
-from fewshot.model_runner import run_model, check_ollama_status, MODEL_CONFIG
+from fewshot.model_runner import run_model, check_ollama_status, MODEL_CONFIG, ollama_resolved_id
 from evaluation.checker import evaluate
 from evaluation.reporter import print_table, print_detail, save_json, print_winner
 
@@ -111,10 +111,12 @@ def main():
         status = check_ollama_status()
         if status["running"]:
             print(f"Ollama 실행 중 (설치된 모델: {status['models']})")
-            needed = ["gemma3", "qwen2.5-coder"]
-            for m in needed:
-                found = any(m in installed for installed in status["models"])
-                print(f"  {'O' if found else 'X'} {m}")
+            for key, cfg in MODEL_CONFIG.items():
+                if cfg["type"] != "ollama":
+                    continue
+                resolved = ollama_resolved_id(key)
+                found = resolved in status["models"]
+                print(f"  {'O' if found else 'X'} {key} → {resolved}")
         else:
             print(f"Ollama 미실행: {status['error']}")
             print("→ 'ollama serve' 명령으로 실행하세요")

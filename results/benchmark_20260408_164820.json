@@ -1,11 +1,11 @@
 {
-  "timestamp": "20260407_175319",
+  "timestamp": "20260408_164820",
   "results": [
     {
       "procedure": "usp_get_books_storebook",
       "category": "SELECT",
       "model": "gemma3",
-      "elapsed": 47.07,
+      "elapsed": 25.47,
       "eval": {
         "syntax": {
           "pass": true,
@@ -37,7 +37,7 @@
       "procedure": "usp_get_books_storebook",
       "category": "SELECT",
       "model": "qwen2.5-coder",
-      "elapsed": 46.31,
+      "elapsed": 23.22,
       "eval": {
         "syntax": {
           "pass": true,
@@ -69,34 +69,39 @@
       "procedure": "usp_get_books_storebook",
       "category": "SELECT",
       "model": "glm-4-flash",
-      "elapsed": 0.0,
+      "elapsed": 25.6,
       "eval": {
         "syntax": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "GLM_API_KEY가 설정되지 않았습니다.\n→ .env 파일에 GLM_API_KEY=your_key 를 추가하세요.\n→ API 키 발급: https://open.bigmodel.cn"
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
         },
         "pattern": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "모델 호출 실패"
+          "pass": true,
+          "score": 0.85,
+          "reason": "필수 패턴 3/3 충족 | 보너스 2/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
         },
         "logic": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "모델 호출 실패"
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
         },
-        "total_score": 0.0,
-        "all_pass": false,
-        "summary": "모델 오류: GLM_API_KEY가 설정되지 않았습니다.\n→ .env 파일에 GLM_API_KEY=yo"
+        "total_score": 0.955,
+        "all_pass": true,
+        "summary": "총점 96% | 문법(O) 패턴(O) 논리(O)"
       },
-      "code_length": 0
+      "code_length": 870
     },
     {
       "procedure": "usp_add_book_storebook",
       "category": "INSERT",
       "model": "gemma3",
-      "elapsed": 51.36,
+      "elapsed": 26.59,
       "eval": {
         "syntax": {
           "pass": true,
@@ -128,7 +133,7 @@
       "procedure": "usp_add_book_storebook",
       "category": "INSERT",
       "model": "qwen2.5-coder",
-      "elapsed": 31.97,
+      "elapsed": 21.49,
       "eval": {
         "syntax": {
           "pass": true,
@@ -154,40 +159,45 @@
         "all_pass": true,
         "summary": "총점 98% | 문법(O) 패턴(O) 논리(O)"
       },
-      "code_length": 810
+      "code_length": 842
     },
     {
       "procedure": "usp_add_book_storebook",
       "category": "INSERT",
       "model": "glm-4-flash",
-      "elapsed": 0.0,
+      "elapsed": 41.26,
       "eval": {
         "syntax": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "GLM_API_KEY가 설정되지 않았습니다.\n→ .env 파일에 GLM_API_KEY=your_key 를 추가하세요.\n→ API 키 발급: https://open.bigmodel.cn"
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
         },
         "pattern": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "모델 호출 실패"
+          "pass": true,
+          "score": 0.92,
+          "reason": "필수 패턴 3/3 충족 | 보너스 3/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
         },
         "logic": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "모델 호출 실패"
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
         },
-        "total_score": 0.0,
-        "all_pass": false,
-        "summary": "모델 오류: GLM_API_KEY가 설정되지 않았습니다.\n→ .env 파일에 GLM_API_KEY=yo"
+        "total_score": 0.976,
+        "all_pass": true,
+        "summary": "총점 98% | 문법(O) 패턴(O) 논리(O)"
       },
-      "code_length": 0
+      "code_length": 992
     },
     {
       "procedure": "usp_add_authorbook_storebook",
       "category": "INSERT",
       "model": "gemma3",
-      "elapsed": 21.53,
+      "elapsed": 21.43,
       "eval": {
         "syntax": {
           "pass": true,
@@ -219,7 +229,7 @@
       "procedure": "usp_add_authorbook_storebook",
       "category": "INSERT",
       "model": "qwen2.5-coder",
-      "elapsed": 22.44,
+      "elapsed": 19.49,
       "eval": {
         "syntax": {
           "pass": true,
@@ -245,40 +255,45 @@
         "all_pass": true,
         "summary": "총점 100% | 문법(O) 패턴(O) 논리(O)"
       },
-      "code_length": 796
+      "code_length": 749
     },
     {
       "procedure": "usp_add_authorbook_storebook",
       "category": "INSERT",
       "model": "glm-4-flash",
-      "elapsed": 0.0,
+      "elapsed": 32.52,
       "eval": {
         "syntax": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "GLM_API_KEY가 설정되지 않았습니다.\n→ .env 파일에 GLM_API_KEY=your_key 를 추가하세요.\n→ API 키 발급: https://open.bigmodel.cn"
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
         },
         "pattern": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "모델 호출 실패"
+          "pass": true,
+          "score": 1.0,
+          "reason": "필수 패턴 3/3 충족 | 보너스 4/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
         },
         "logic": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "모델 호출 실패"
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
         },
-        "total_score": 0.0,
-        "all_pass": false,
-        "summary": "모델 오류: GLM_API_KEY가 설정되지 않았습니다.\n→ .env 파일에 GLM_API_KEY=yo"
+        "total_score": 1.0,
+        "all_pass": true,
+        "summary": "총점 100% | 문법(O) 패턴(O) 논리(O)"
       },
-      "code_length": 0
+      "code_length": 787
     },
     {
       "procedure": "usp_add_category_storebook",
       "category": "INSERT",
       "model": "gemma3",
-      "elapsed": 56.08,
+      "elapsed": 20.69,
       "eval": {
         "syntax": {
           "pass": true,
@@ -310,7 +325,7 @@
       "procedure": "usp_add_category_storebook",
       "category": "INSERT",
       "model": "qwen2.5-coder",
-      "elapsed": 18.96,
+      "elapsed": 18.71,
       "eval": {
         "syntax": {
           "pass": true,
@@ -342,34 +357,39 @@
       "procedure": "usp_add_category_storebook",
       "category": "INSERT",
       "model": "glm-4-flash",
-      "elapsed": 0.0,
+      "elapsed": 37.13,
       "eval": {
         "syntax": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "GLM_API_KEY가 설정되지 않았습니다.\n→ .env 파일에 GLM_API_KEY=your_key 를 추가하세요.\n→ API 키 발급: https://open.bigmodel.cn"
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
         },
         "pattern": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "모델 호출 실패"
+          "pass": true,
+          "score": 0.92,
+          "reason": "필수 패턴 3/3 충족 | 보너스 3/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
         },
         "logic": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "모델 호출 실패"
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치 | result_id 반환됨"
         },
-        "total_score": 0.0,
-        "all_pass": false,
-        "summary": "모델 오류: GLM_API_KEY가 설정되지 않았습니다.\n→ .env 파일에 GLM_API_KEY=yo"
+        "total_score": 0.976,
+        "all_pass": true,
+        "summary": "총점 98% | 문법(O) 패턴(O) 논리(O)"
       },
-      "code_length": 0
+      "code_length": 783
     },
     {
       "procedure": "usp_modified_book_storebook",
       "category": "UPDATE",
       "model": "gemma3",
-      "elapsed": 23.33,
+      "elapsed": 23.29,
       "eval": {
         "syntax": {
           "pass": true,
@@ -395,13 +415,13 @@
         "all_pass": true,
         "summary": "총점 98% | 문법(O) 패턴(O) 논리(O)"
       },
-      "code_length": 830
+      "code_length": 832
     },
     {
       "procedure": "usp_modified_book_storebook",
       "category": "UPDATE",
       "model": "qwen2.5-coder",
-      "elapsed": 21.82,
+      "elapsed": 21.72,
       "eval": {
         "syntax": {
           "pass": true,
@@ -433,157 +453,7 @@
       "procedure": "usp_modified_book_storebook",
       "category": "UPDATE",
       "model": "glm-4-flash",
-      "elapsed": 0.0,
-      "eval": {
-        "syntax": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "GLM_API_KEY가 설정되지 않았습니다.\n→ .env 파일에 GLM_API_KEY=your_key 를 추가하세요.\n→ API 키 발급: https://open.bigmodel.cn"
-        },
-        "pattern": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "모델 호출 실패"
-        },
-        "logic": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "모델 호출 실패"
-        },
-        "total_score": 0.0,
-        "all_pass": false,
-        "summary": "모델 오류: GLM_API_KEY가 설정되지 않았습니다.\n→ .env 파일에 GLM_API_KEY=yo"
-      },
-      "code_length": 0
-    },
-    {
-      "procedure": "usp_modified_authorbook_storebook",
-      "category": "UPDATE",
-      "model": "gemma3",
-      "elapsed": 23.64,
-      "eval": {
-        "syntax": {
-          "pass": true,
-          "score": 1.0,
-          "reason": "함수 1개 정상 파싱"
-        },
-        "pattern": {
-          "pass": true,
-          "score": 1.0,
-          "reason": "필수 패턴 3/3 충족 | 보너스 4/4",
-          "details": {
-            "ProcedureResult 반환 타입 사용": true,
-            "try/except 오류 처리": true,
-            "get_db_cursor() DB 컨텍스트 매니저 사용": true
-          }
-        },
-        "logic": {
-          "pass": true,
-          "score": 1.0,
-          "reason": "success 일치"
-        },
-        "total_score": 1.0,
-        "all_pass": true,
-        "summary": "총점 100% | 문법(O) 패턴(O) 논리(O)"
-      },
-      "code_length": 836
-    },
-    {
-      "procedure": "usp_modified_authorbook_storebook",
-      "category": "UPDATE",
-      "model": "qwen2.5-coder",
-      "elapsed": 21.76,
-      "eval": {
-        "syntax": {
-          "pass": true,
-          "score": 1.0,
-          "reason": "함수 1개 정상 파싱"
-        },
-        "pattern": {
-          "pass": true,
-          "score": 1.0,
-          "reason": "필수 패턴 3/3 충족 | 보너스 4/4",
-          "details": {
-            "ProcedureResult 반환 타입 사용": true,
-            "try/except 오류 처리": true,
-            "get_db_cursor() DB 컨텍스트 매니저 사용": true
-          }
-        },
-        "logic": {
-          "pass": true,
-          "score": 1.0,
-          "reason": "success 일치"
-        },
-        "total_score": 1.0,
-        "all_pass": true,
-        "summary": "총점 100% | 문법(O) 패턴(O) 논리(O)"
-      },
-      "code_length": 836
-    },
-    {
-      "procedure": "usp_modified_authorbook_storebook",
-      "category": "UPDATE",
-      "model": "glm-4-flash",
-      "elapsed": 0.0,
-      "eval": {
-        "syntax": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "GLM_API_KEY가 설정되지 않았습니다.\n→ .env 파일에 GLM_API_KEY=your_key 를 추가하세요.\n→ API 키 발급: https://open.bigmodel.cn"
-        },
-        "pattern": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "모델 호출 실패"
-        },
-        "logic": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "모델 호출 실패"
-        },
-        "total_score": 0.0,
-        "all_pass": false,
-        "summary": "모델 오류: GLM_API_KEY가 설정되지 않았습니다.\n→ .env 파일에 GLM_API_KEY=yo"
-      },
-      "code_length": 0
-    },
-    {
-      "procedure": "usp_delete_book_storebook",
-      "category": "DELETE+TRANSACTION",
-      "model": "gemma3",
-      "elapsed": 21.94,
-      "eval": {
-        "syntax": {
-          "pass": true,
-          "score": 1.0,
-          "reason": "함수 1개 정상 파싱"
-        },
-        "pattern": {
-          "pass": true,
-          "score": 1.0,
-          "reason": "필수 패턴 3/3 충족 | 보너스 4/4",
-          "details": {
-            "ProcedureResult 반환 타입 사용": true,
-            "try/except 오류 처리": true,
-            "get_db_cursor() DB 컨텍스트 매니저 사용": true
-          }
-        },
-        "logic": {
-          "pass": true,
-          "score": 1.0,
-          "reason": "success 일치"
-        },
-        "total_score": 1.0,
-        "all_pass": true,
-        "summary": "총점 100% | 문법(O) 패턴(O) 논리(O)"
-      },
-      "code_length": 852
-    },
-    {
-      "procedure": "usp_delete_book_storebook",
-      "category": "DELETE+TRANSACTION",
-      "model": "qwen2.5-coder",
-      "elapsed": 27.66,
+      "elapsed": 44.06,
       "eval": {
         "syntax": {
           "pass": true,
@@ -609,34 +479,199 @@
         "all_pass": true,
         "summary": "총점 98% | 문법(O) 패턴(O) 논리(O)"
       },
-      "code_length": 1076
+      "code_length": 821
+    },
+    {
+      "procedure": "usp_modified_authorbook_storebook",
+      "category": "UPDATE",
+      "model": "gemma3",
+      "elapsed": 23.61,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "필수 패턴 3/3 충족 | 보너스 4/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "total_score": 1.0,
+        "all_pass": true,
+        "summary": "총점 100% | 문법(O) 패턴(O) 논리(O)"
+      },
+      "code_length": 836
+    },
+    {
+      "procedure": "usp_modified_authorbook_storebook",
+      "category": "UPDATE",
+      "model": "qwen2.5-coder",
+      "elapsed": 21.74,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "필수 패턴 3/3 충족 | 보너스 4/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "total_score": 1.0,
+        "all_pass": true,
+        "summary": "총점 100% | 문법(O) 패턴(O) 논리(O)"
+      },
+      "code_length": 836
+    },
+    {
+      "procedure": "usp_modified_authorbook_storebook",
+      "category": "UPDATE",
+      "model": "glm-4-flash",
+      "elapsed": 46.75,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "필수 패턴 3/3 충족 | 보너스 4/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "total_score": 1.0,
+        "all_pass": true,
+        "summary": "총점 100% | 문법(O) 패턴(O) 논리(O)"
+      },
+      "code_length": 822
+    },
+    {
+      "procedure": "usp_delete_book_storebook",
+      "category": "DELETE+TRANSACTION",
+      "model": "gemma3",
+      "elapsed": 21.68,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "필수 패턴 3/3 충족 | 보너스 4/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "total_score": 1.0,
+        "all_pass": true,
+        "summary": "총점 100% | 문법(O) 패턴(O) 논리(O)"
+      },
+      "code_length": 850
+    },
+    {
+      "procedure": "usp_delete_book_storebook",
+      "category": "DELETE+TRANSACTION",
+      "model": "qwen2.5-coder",
+      "elapsed": 26.35,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 0.92,
+          "reason": "필수 패턴 3/3 충족 | 보너스 3/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "total_score": 0.976,
+        "all_pass": true,
+        "summary": "총점 98% | 문법(O) 패턴(O) 논리(O)"
+      },
+      "code_length": 1042
     },
     {
       "procedure": "usp_delete_book_storebook",
       "category": "DELETE+TRANSACTION",
       "model": "glm-4-flash",
-      "elapsed": 0.0,
+      "elapsed": 46.92,
       "eval": {
         "syntax": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "GLM_API_KEY가 설정되지 않았습니다.\n→ .env 파일에 GLM_API_KEY=your_key 를 추가하세요.\n→ API 키 발급: https://open.bigmodel.cn"
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
         },
         "pattern": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "모델 호출 실패"
+          "pass": true,
+          "score": 0.92,
+          "reason": "필수 패턴 3/3 충족 | 보너스 3/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
         },
         "logic": {
-          "pass": false,
-          "score": 0.0,
-          "reason": "모델 호출 실패"
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
         },
-        "total_score": 0.0,
-        "all_pass": false,
-        "summary": "모델 오류: GLM_API_KEY가 설정되지 않았습니다.\n→ .env 파일에 GLM_API_KEY=yo"
+        "total_score": 0.976,
+        "all_pass": true,
+        "summary": "총점 98% | 문법(O) 패턴(O) 논리(O)"
       },
-      "code_length": 0
+      "code_length": 815
     }
   ]
 }

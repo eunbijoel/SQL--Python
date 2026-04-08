@@ -61,6 +61,12 @@ def print_detail(results: list[dict]) -> None:
         print(f"  문법:  {'PASS' if ev['syntax']['pass'] else 'FAIL'} | {ev['syntax']['reason']}")
         print(f"  패턴:  {'PASS' if ev['pattern']['pass'] else 'FAIL'} | {ev['pattern']['reason']}")
         print(f"  논리:  {'PASS' if ev['logic']['pass'] else 'FAIL'} | {ev['logic']['reason']}")
+        if "gold" in ev:
+            print(f"  정답:  {'PASS' if ev['gold']['pass'] else 'FAIL'} | {ev['gold']['reason']}")
+        if "style" in ev:
+            print(f"  스타일: {'PASS' if ev['style']['pass'] else 'FAIL'} | {ev['style']['reason']}")
+        if "all_pass_strict" in ev:
+            print(f"  엄격통과: {'O' if ev['all_pass_strict'] else 'X'}")
         print(f"  총점:  {ev['total_score']:.0%} | {ev['summary']}")
 
 
