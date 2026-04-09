@@ -35,7 +35,7 @@ Rules you must follow:
 """
 
 
-def build_prompt(target_sql: str, n_examples: int = 4) -> str:
+def build_prompt(target_sql: str, n_examples: int = 6) -> str:
     """
     Few-shot 프롬프트를 만들어 반환합니다.
 
@@ -49,7 +49,7 @@ def build_prompt(target_sql: str, n_examples: int = 4) -> str:
 
     Args:
         target_sql: 변환할 SQL 프로시저 코드
-        n_examples: 사용할 예시 개수 (기본 4개, 최대 4개)
+        n_examples: 사용할 예시 개수 (기본 6개, 최대 len(EXAMPLES))
 
     Returns:
         완성된 프롬프트 문자열
@@ -83,7 +83,7 @@ def build_prompt(target_sql: str, n_examples: int = 4) -> str:
     return "\n".join(parts)
 
 
-def print_prompt_preview(target_sql: str, n_examples: int = 4) -> None:
+def print_prompt_preview(target_sql: str, n_examples: int = 6) -> None:
     """
     프롬프트를 출력해서 눈으로 확인할 수 있게 합니다.
     실행 전 '내용이 제대로 들어갔나?' 확인용.

@@ -34,9 +34,9 @@ from evaluation.style_rubric import check_style_rubric
 
 class TestPromptBuilder(unittest.TestCase):
 
-    def test_예시가_4개_포함되는가(self):
-        prompt = build_prompt("SELECT 1", n_examples=4)
-        self.assertEqual(prompt.count("### Example"), 4)
+    def test_예시가_6개_포함되는가(self):
+        prompt = build_prompt("SELECT 1", n_examples=6)
+        self.assertEqual(prompt.count("### Example"), 6)
 
     def test_SQL_입력이_포함되는가(self):
         sql = "CREATE PROCEDURE test_proc AS SELECT 1"
@@ -62,9 +62,9 @@ class TestPromptBuilder(unittest.TestCase):
 
     def test_예시_수_줄이기_가능한가(self):
         prompt_2 = build_prompt("SELECT 1", n_examples=2)
-        prompt_4 = build_prompt("SELECT 1", n_examples=4)
+        prompt_6 = build_prompt("SELECT 1", n_examples=6)
         self.assertEqual(prompt_2.count("### Example"), 2)
-        self.assertLess(len(prompt_2), len(prompt_4))
+        self.assertLess(len(prompt_2), len(prompt_6))
 
     def test_모든_SQL_카테고리_포함(self):
         categories = {ex["category"] for ex in EXAMPLES}
@@ -231,8 +231,8 @@ class TestGoldAndStyle(unittest.TestCase):
 
 class TestExamplesData(unittest.TestCase):
 
-    def test_예시_4개_모두_있음(self):
-        self.assertEqual(len(EXAMPLES), 4)
+    def test_예시_6개_모두_있음(self):
+        self.assertEqual(len(EXAMPLES), 6)
 
     def test_테스트_타겟_7개_모두_있음(self):
         self.assertEqual(len(TEST_TARGETS), 7)

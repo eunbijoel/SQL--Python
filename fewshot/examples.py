@@ -3,10 +3,10 @@ fewshot/examples.py
 ====================
 Few-shot 학습에 사용할 (SQL 입력, Python 정답) 예시 쌍 모음.
 
-우리가 직접 번역한 11개 함수 중 4개를 예시로 사용합니다.
-- 너무 많으면 프롬프트가 길어져서 모델이 지침에 집중 못함
-- 다양한 패턴(SELECT/INSERT/UPDATE/DELETE)을 골고루 포함
-- 나머지 7개는 실제 변환 테스트 대상으로 사용
+직접 번역한 BookStore 계열 11개 중, 6개를 EXAMPLES로 프롬프트에 넣습니다.
+- 나머지 7개(TEST_TARGETS)는 예시에 넣지 않고 변환·채점만 수행
+- 6개: SELECT/LIKE, INSERT+SCOPE_IDENTITY, UPDATE+ROWCOUNT, 단순 DELETE,
+       2단계 트랜잭션 DELETE(다른 테이블), varchar PK INSERT(다른 테이블)
 """
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -167,6 +167,111 @@ def delete_author(author_id):
             return ProcedureResult(success=True, rows_affected=cursor.rowcount)
     except Exception as exc:
         return ProcedureResult(error=f"delete_author 오류: {exc}")
+""",
+    },
+    # ── TEST_TARGETS의 usp_delete_book 과 테이블이 겹치지 않는 2단계 삭제 패턴 ──
+    {
+        "name": "usp_delete_order_storebook",
+        "category": "DELETE",
+        "sql": """\
+CREATE PROCEDURE [dbo].[usp_delete_order_storebook]
+    @porderid int,
+    @presult bit out,
+    @pmsgerror varchar(256) out
+AS
+    SET NOCOUNT ON;
+    BEGIN TRY
+        BEGIN TRAN
+        DELETE FROM OrderItems WHERE OrderId = @porderid
+        IF @@ROWCOUNT > 0 AND @@ERROR = 0
+        BEGIN
+            DELETE FROM Orders WHERE OrderId = @porderid
+            IF @@ERROR = 0 AND @@ROWCOUNT = 1
+                set @presult = 1
+            ELSE
+                SET @presult = 0
+        END
+        ELSE
+            SET @pmsgerror = 'Nothing to delete'
+        IF @presult = 1
+            COMMIT TRAN
+        ELSE
+            ROLLBACK TRAN
+    END TRY
+    BEGIN CATCH
+        SET @pmsgerror = convert(varchar(8),ERROR_LINE()) + ': ' + ERROR_MESSAGE()
+    END CATCH
+""",
+        "python": """\
+def delete_order(order_id):
+    \"\"\"주문: OrderItems 먼저 삭제 후 Orders 삭제 (한 트랜잭션).\"\"\"
+    if not isinstance(order_id, int) or order_id <= 0:
+        return ProcedureResult(error="order_id는 양의 정수여야 합니다.")
+    try:
+        with get_db_cursor(autocommit=False) as cursor:
+            cursor.execute("DELETE FROM OrderItems WHERE OrderId = ?", (order_id,))
+            items_deleted = cursor.rowcount
+            if items_deleted == 0:
+                return ProcedureResult(error="삭제할 주문 항목이 없습니다.")
+            cursor.execute("DELETE FROM Orders WHERE OrderId = ?", (order_id,))
+            order_rows = cursor.rowcount
+            if order_rows != 1:
+                return ProcedureResult(
+                    error=(
+                        f"주문 본체 삭제 실패: 예상 1행, 실제 {order_rows}행"
+                    )
+                )
+            return ProcedureResult(
+                success=True,
+                rows_affected=items_deleted + order_rows,
+            )
+    except Exception as exc:
+        return ProcedureResult(error=f"delete_order 오류: {exc}")
+""",
+    },
+    # ── TEST_TARGETS의 usp_add_book 과 겹치지 않는 varchar PK INSERT 패턴 ──
+    {
+        "name": "usp_add_product_storebook",
+        "category": "INSERT",
+        "sql": """\
+CREATE PROCEDURE [dbo].[usp_add_product_storebook]
+    @pcode varchar(20),
+    @pname varchar(256),
+    @pprice decimal(10,2) = null,
+    @presult varchar(20) out,
+    @pmsgerror varchar(256) out
+AS
+    SET NOCOUNT ON;
+    BEGIN TRY
+        INSERT INTO Products(Code, Name, Price)
+        VALUES(@pcode, @pname, @pprice);
+        IF @@ROWCOUNT > 0 AND @@ERROR = 0
+            SELECT @presult = Code FROM Products WHERE Code = @pcode;
+    END TRY
+    BEGIN CATCH
+        SET @pmsgerror = convert(varchar(8),ERROR_LINE()) + ': ' + ERROR_MESSAGE()
+    END CATCH
+""",
+        "python": """\
+def add_product(code: str, name: str, price=None):
+    \"\"\"Products 삽입. PK가 varchar(Code)이면 SCOPE_IDENTITY 대신 code 반환.\"\"\"
+    if not code or not str(code).strip():
+        return ProcedureResult(error="code는 필수입니다.")
+    if not name or not str(name).strip():
+        return ProcedureResult(error="name은 필수입니다.")
+    code = str(code).strip()
+    name = str(name).strip()
+    try:
+        with get_db_cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO Products (Code, Name, Price) VALUES (?, ?, ?)",
+                (code, name, price),
+            )
+            if cursor.rowcount == 0:
+                return ProcedureResult(error="상품 추가 실패: 삽입된 행이 없습니다.")
+            return ProcedureResult(success=True, result_id=code)
+    except Exception as exc:
+        return ProcedureResult(error=f"add_product 오류: {exc}")
 """,
     },
 ]

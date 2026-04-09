@@ -32,7 +32,7 @@ from evaluation.reporter import print_table, print_detail, save_json, print_winn
 DEFAULT_MODELS = ["gemma3", "qwen2.5-coder", "glm-4-flash"]
 
 
-def run_full_benchmark(models: list[str], targets: list[dict], n_examples: int = 4) -> list[dict]:
+def run_full_benchmark(models: list[str], targets: list[dict], n_examples: int = 6) -> list[dict]:
     """
     모든 모델 × 모든 SQL 조합을 실행하고 평가합니다.
 
@@ -101,7 +101,7 @@ def main():
     parser.add_argument("--check-ollama", action="store_true", help="Ollama 상태 확인")
     parser.add_argument("--mini",         action="store_true", help="SQL 1개로 빠른 테스트")
     parser.add_argument("--models",       nargs="+",           help="사용할 모델 목록", default=DEFAULT_MODELS)
-    parser.add_argument("--examples",     type=int, default=4, help="few-shot 예시 개수 (기본 4)")
+    parser.add_argument("--examples",     type=int, default=6, help="few-shot 예시 개수 (기본 6)")
     parser.add_argument("--detail",       action="store_true", help="상세 결과 출력")
     parser.add_argument("--no-save",      action="store_true", help="JSON 저장 안 함")
     args = parser.parse_args()

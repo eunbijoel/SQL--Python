@@ -132,7 +132,10 @@ def check_gold_similarity(code: str, procedure_name: str) -> dict:
 
     # 라인 텍스트를 주 가중치(정확도), AST는 다른 표현이라도 구조 비슷할 때 보조
     score = round(min(1.0, line_ratio * 0.72 + ast_ratio * 0.28), 3)
-    passed = score >= 0.55
+    # 통과 임계값: results/benchmark_20260408_172940.json 기준
+    # usp_add_category·usp_add_book(glm) 등은 합성 점수 ~0.51~0.54대인데 동작은 양호.
+    # 0.55는 과도하게 빡세서 strict가 의미 없이 깎임 → 0.50으로 완화 (삭제 2단계는 여전히 낮게 나올 수 있음).
+    passed = score >= 0.50
 
     return {
         "pass": passed,

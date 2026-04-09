@@ -1,4 +1,4 @@
-# SQL→Python Few-shot 벤치마크
+# BookStore SQL → Python Few-shot 벤치마크
 
 ## 목적
 
@@ -120,7 +120,7 @@ OLLAMA_GENERATE_TIMEOUT=600
    → SQL 7개 × 기본 3모델 = 21회.  
    - 상세 항목: `python run_benchmark.py --detail`  
    - 모델 일부만: `python run_benchmark.py --models gemma3 qwen2.5-coder`  
-   - Few-shot 개수: `--examples 4` (기본 4)
+   - Few-shot 개수: `--examples 6` (기본 6)
 
 **한 번에 끝까지 (Windows)**  
 `run_full_pipeline.cmd` 더블클릭 또는 프로젝트 루트에서 실행.  
@@ -181,9 +181,9 @@ usp_get_books_storebook           78% [O] (25s)    76% [O] (32s)    74% [X] (22s
 | 지표 | 가중치 | 내용 |
 |------|--------|------|
 | 문법 | 10% | `ast.parse` 성공, 최상위 `def` 최소 1개. |
-| 패턴 | 10% | 문자열 수준: `ProcedureResult`, `try`, `get_db_cursor` 등 (Few-shot과 맞춘 최소 관례). |
-| 논리 | 22% | 고정 Mock 커서로 서브프로세스 실행 후 `success` / `result_id` 등이 `EXPECTED_BY_PROCEDURE`와 맞는지. 인자는 휴리스틱으로 채워 **참 구현과 어긋날 수 있음**. |
-| 정답 유사도 | 38% | `procedures/*.py`에 매핑된 **정답 함수**와 모델 출력 **첫 함수**의 정규화 라인 유사도 + AST dump 유사도 혼합. **정확도에 가장 큰 비중**. |
+| 패턴 | 15% | 문자열 수준: `ProcedureResult`, `try`, `get_db_cursor` 등 (Few-shot과 맞춘 최소 관례). |
+| 논리 | 30% | 고정 Mock 커서로 서브프로세스 실행 후 `success` / `result_id` 등이 `EXPECTED_BY_PROCEDURE`와 맞는지. 인자는 휴리스틱으로 채워 **참 구현과 어긋날 수 있음**. |
+| 정답 유사도 | 25% | `procedures/*.py`에 매핑된 **정답 함수**와 모델 출력 **첫 함수**의 정규화 라인 유사도 + AST dump 유사도 혼합. 동작이 맞아도 표현 차이로 점수가 낮을 수 있어 비중을 완화. |
 | 스타일 루브릭 | 20% | `cursor.execute`의 `?`와 인자 개수, 위험 패턴 문자열, `get_db_cursor` 등 Comparator류 체크. |
 
 **`all_pass`**: 문법·패턴·논리만 모두 pass.  
@@ -195,7 +195,7 @@ usp_get_books_storebook           78% [O] (25s)    76% [O] (32s)    74% [X] (22s
 
 ## Few-shot 구성
 
-- **`EXAMPLES`** (기본 4개): SELECT / INSERT / UPDATE / DELETE 성격을 골고루 넣은 **SQL + 정답 Python** 쌍. 프롬프트에 그대로 포함됩니다.
+- **`EXAMPLES`** (기본 6개): SELECT / INSERT / UPDATE / DELETE, 2단계 트랜잭션 삭제, varchar PK INSERT 등 **SQL + 정답 Python** 쌍. 프롬프트에 그대로 포함됩니다.
 - **`TEST_TARGETS`** (7개): **예시에는 넣지 않고**, 모델이 실제로 변환해야 하는 T-SQL만 가진 항목들. 벤치마크는 이 7개를 순회합니다.
 - 예시 개수 변경: `python run_benchmark.py --examples 2` 처럼 CLI로 조절 (프롬프트 길이·난이도 트레이드오프).
 

@@ -7,10 +7,10 @@ evaluation/checker.py
     1. 문법   — ast.parse + def 존재
     2. 패턴   — 문자열 기반 필수 토큰 (few-shot 정렬용, 거친 층)
     3. 논리   — Mock DB 실행 후 success/result_id
-    4. 정답 유사도 — procedures/*.py 해당 함수와 라인·AST 유사도 (정확도 핵심)
+    4. 정답 유사도 — procedures/*.py 해당 함수와 라인·AST 유사도 (참고 지표; 동작과 다른 표현도 허용)
     5. 스타일 루브릭 — Comparator 스타일(placeholder 균형, 위험 패턴 등)을 BookStore 관례에 맞게
 
-가중치(합 1.0): 문법 0.10, 패턴 0.10, 논리 0.22, 정답 0.38, 스타일 0.20
+가중치(합 1.0): 문법 0.10, 패턴 0.15, 논리 0.30, 정답 0.25, 스타일 0.20
 
 설계 원칙:
     - 실제 DB 연결 없이 동작
@@ -315,8 +315,8 @@ def evaluate(code: str, procedure_name: str) -> dict:
     gold = check_gold_similarity(code, procedure_name)
     style = check_style_rubric(code, procedure_name)
 
-    # 가중 평균 — 정답 유사도 비중 최대 (정확도 우선)
-    w_syn, w_pat, w_log, w_gold, w_sty = 0.10, 0.10, 0.22, 0.38, 0.20
+    # 가중 평균 — 논리(Mock 동작) 비중을 올리고 gold는 보조로 조정 (정답 문자열과 다른 해도 동작이면 총점이 덜 깎임)
+    w_syn, w_pat, w_log, w_gold, w_sty = 0.10, 0.15, 0.30, 0.25, 0.20
     total = round(
         syntax["score"]  * w_syn +
         pattern["score"] * w_pat +
