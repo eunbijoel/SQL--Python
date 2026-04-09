@@ -1,0 +1,1160 @@
+{
+  "timestamp": "20260408_172940",
+  "results": [
+    {
+      "procedure": "usp_get_books_storebook",
+      "category": "SELECT",
+      "model": "gemma3",
+      "elapsed": 25.49,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 0.85,
+          "reason": "필수 패턴 3/3 충족 | 보너스 2/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "gold": {
+          "pass": true,
+          "score": 0.819,
+          "reason": "정답 대비 line≈84% ast≈76% → 합성 82%",
+          "line_ratio": 0.841,
+          "ast_ratio": 0.762
+        },
+        "style": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "스타일 100% | 미충족: 없음",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": true,
+            "name_hint": true
+          }
+        },
+        "total_score": 0.916,
+        "all_pass": true,
+        "all_pass_strict": true,
+        "summary": "총점 92% | 문법(O) 패턴(O) 논리(O) 정답(O) 스타일(O)"
+      },
+      "code_length": 873
+    },
+    {
+      "procedure": "usp_get_books_storebook",
+      "category": "SELECT",
+      "model": "qwen2.5-coder",
+      "elapsed": 23.26,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 0.85,
+          "reason": "필수 패턴 3/3 충족 | 보너스 2/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "gold": {
+          "pass": true,
+          "score": 0.82,
+          "reason": "정답 대비 line≈84% ast≈76% → 합성 82%",
+          "line_ratio": 0.842,
+          "ast_ratio": 0.762
+        },
+        "style": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "스타일 100% | 미충족: 없음",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": true,
+            "name_hint": true
+          }
+        },
+        "total_score": 0.917,
+        "all_pass": true,
+        "all_pass_strict": true,
+        "summary": "총점 92% | 문법(O) 패턴(O) 논리(O) 정답(O) 스타일(O)"
+      },
+      "code_length": 873
+    },
+    {
+      "procedure": "usp_get_books_storebook",
+      "category": "SELECT",
+      "model": "glm-4-flash",
+      "elapsed": 28.45,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 0.85,
+          "reason": "필수 패턴 3/3 충족 | 보너스 2/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "gold": {
+          "pass": true,
+          "score": 0.82,
+          "reason": "정답 대비 line≈84% ast≈76% → 합성 82%",
+          "line_ratio": 0.842,
+          "ast_ratio": 0.762
+        },
+        "style": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "스타일 100% | 미충족: 없음",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": true,
+            "name_hint": true
+          }
+        },
+        "total_score": 0.917,
+        "all_pass": true,
+        "all_pass_strict": true,
+        "summary": "총점 92% | 문법(O) 패턴(O) 논리(O) 정답(O) 스타일(O)"
+      },
+      "code_length": 872
+    },
+    {
+      "procedure": "usp_add_book_storebook",
+      "category": "INSERT",
+      "model": "gemma3",
+      "elapsed": 26.62,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 0.92,
+          "reason": "필수 패턴 3/3 충족 | 보너스 3/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "gold": {
+          "pass": true,
+          "score": 0.581,
+          "reason": "정답 대비 line≈61% ast≈50% → 합성 58%",
+          "line_ratio": 0.612,
+          "ast_ratio": 0.502
+        },
+        "style": {
+          "pass": true,
+          "score": 0.9,
+          "reason": "스타일 90% | 미충족: placeholder_balance",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": false,
+            "name_hint": true
+          }
+        },
+        "total_score": 0.813,
+        "all_pass": true,
+        "all_pass_strict": true,
+        "summary": "총점 81% | 문법(O) 패턴(O) 논리(O) 정답(O) 스타일(O)"
+      },
+      "code_length": 989
+    },
+    {
+      "procedure": "usp_add_book_storebook",
+      "category": "INSERT",
+      "model": "qwen2.5-coder",
+      "elapsed": 21.47,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 0.92,
+          "reason": "필수 패턴 3/3 충족 | 보너스 3/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "gold": {
+          "pass": true,
+          "score": 0.558,
+          "reason": "정답 대비 line≈57% ast≈53% → 합성 56%",
+          "line_ratio": 0.569,
+          "ast_ratio": 0.529
+        },
+        "style": {
+          "pass": true,
+          "score": 0.9,
+          "reason": "스타일 90% | 미충족: placeholder_balance",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": false,
+            "name_hint": true
+          }
+        },
+        "total_score": 0.804,
+        "all_pass": true,
+        "all_pass_strict": true,
+        "summary": "총점 80% | 문법(O) 패턴(O) 논리(O) 정답(O) 스타일(O)"
+      },
+      "code_length": 842
+    },
+    {
+      "procedure": "usp_add_book_storebook",
+      "category": "INSERT",
+      "model": "glm-4-flash",
+      "elapsed": 50.87,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 0.92,
+          "reason": "필수 패턴 3/3 충족 | 보너스 3/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "gold": {
+          "pass": false,
+          "score": 0.514,
+          "reason": "정답 대비 line≈55% ast≈43% → 합성 51%",
+          "line_ratio": 0.546,
+          "ast_ratio": 0.433
+        },
+        "style": {
+          "pass": true,
+          "score": 0.9,
+          "reason": "스타일 90% | 미충족: placeholder_balance",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": false,
+            "name_hint": true
+          }
+        },
+        "total_score": 0.787,
+        "all_pass": true,
+        "all_pass_strict": false,
+        "summary": "총점 79% | 문법(O) 패턴(O) 논리(O) 정답(X) 스타일(O)"
+      },
+      "code_length": 994
+    },
+    {
+      "procedure": "usp_add_authorbook_storebook",
+      "category": "INSERT",
+      "model": "gemma3",
+      "elapsed": 21.51,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "필수 패턴 3/3 충족 | 보너스 4/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "gold": {
+          "pass": false,
+          "score": 0.541,
+          "reason": "정답 대비 line≈68% ast≈19% → 합성 54%",
+          "line_ratio": 0.677,
+          "ast_ratio": 0.191
+        },
+        "style": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "스타일 100% | 미충족: 없음",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": true,
+            "name_hint": true
+          }
+        },
+        "total_score": 0.826,
+        "all_pass": true,
+        "all_pass_strict": false,
+        "summary": "총점 83% | 문법(O) 패턴(O) 논리(O) 정답(X) 스타일(O)"
+      },
+      "code_length": 774
+    },
+    {
+      "procedure": "usp_add_authorbook_storebook",
+      "category": "INSERT",
+      "model": "qwen2.5-coder",
+      "elapsed": 20.1,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "필수 패턴 3/3 충족 | 보너스 4/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "gold": {
+          "pass": false,
+          "score": 0.528,
+          "reason": "정답 대비 line≈65% ast≈23% → 합성 53%",
+          "line_ratio": 0.645,
+          "ast_ratio": 0.226
+        },
+        "style": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "스타일 100% | 미충족: 없음",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": true,
+            "name_hint": true
+          }
+        },
+        "total_score": 0.821,
+        "all_pass": true,
+        "all_pass_strict": false,
+        "summary": "총점 82% | 문법(O) 패턴(O) 논리(O) 정답(X) 스타일(O)"
+      },
+      "code_length": 759
+    },
+    {
+      "procedure": "usp_add_authorbook_storebook",
+      "category": "INSERT",
+      "model": "glm-4-flash",
+      "elapsed": 28.49,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "필수 패턴 3/3 충족 | 보너스 4/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "gold": {
+          "pass": true,
+          "score": 0.696,
+          "reason": "정답 대비 line≈90% ast≈17% → 합성 70%",
+          "line_ratio": 0.899,
+          "ast_ratio": 0.174
+        },
+        "style": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "스타일 100% | 미충족: 없음",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": true,
+            "name_hint": true
+          }
+        },
+        "total_score": 0.884,
+        "all_pass": true,
+        "all_pass_strict": true,
+        "summary": "총점 88% | 문법(O) 패턴(O) 논리(O) 정답(O) 스타일(O)"
+      },
+      "code_length": 788
+    },
+    {
+      "procedure": "usp_add_category_storebook",
+      "category": "INSERT",
+      "model": "gemma3",
+      "elapsed": 20.67,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 0.92,
+          "reason": "필수 패턴 3/3 충족 | 보너스 3/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치 | result_id 반환됨"
+        },
+        "gold": {
+          "pass": false,
+          "score": 0.537,
+          "reason": "정답 대비 line≈53% ast≈56% → 합성 54%",
+          "line_ratio": 0.528,
+          "ast_ratio": 0.56
+        },
+        "style": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "스타일 100% | 미충족: 없음",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": true,
+            "name_hint": true
+          }
+        },
+        "total_score": 0.816,
+        "all_pass": true,
+        "all_pass_strict": false,
+        "summary": "총점 82% | 문법(O) 패턴(O) 논리(O) 정답(X) 스타일(O)"
+      },
+      "code_length": 783
+    },
+    {
+      "procedure": "usp_add_category_storebook",
+      "category": "INSERT",
+      "model": "qwen2.5-coder",
+      "elapsed": 18.76,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 0.92,
+          "reason": "필수 패턴 3/3 충족 | 보너스 3/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치 | result_id 반환됨"
+        },
+        "gold": {
+          "pass": false,
+          "score": 0.538,
+          "reason": "정답 대비 line≈53% ast≈56% → 합성 54%",
+          "line_ratio": 0.529,
+          "ast_ratio": 0.56
+        },
+        "style": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "스타일 100% | 미충족: 없음",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": true,
+            "name_hint": true
+          }
+        },
+        "total_score": 0.816,
+        "all_pass": true,
+        "all_pass_strict": false,
+        "summary": "총점 82% | 문법(O) 패턴(O) 논리(O) 정답(X) 스타일(O)"
+      },
+      "code_length": 783
+    },
+    {
+      "procedure": "usp_add_category_storebook",
+      "category": "INSERT",
+      "model": "glm-4-flash",
+      "elapsed": 28.58,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 0.92,
+          "reason": "필수 패턴 3/3 충족 | 보너스 3/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치 | result_id 반환됨"
+        },
+        "gold": {
+          "pass": false,
+          "score": 0.538,
+          "reason": "정답 대비 line≈53% ast≈56% → 합성 54%",
+          "line_ratio": 0.529,
+          "ast_ratio": 0.56
+        },
+        "style": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "스타일 100% | 미충족: 없음",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": true,
+            "name_hint": true
+          }
+        },
+        "total_score": 0.816,
+        "all_pass": true,
+        "all_pass_strict": false,
+        "summary": "총점 82% | 문법(O) 패턴(O) 논리(O) 정답(X) 스타일(O)"
+      },
+      "code_length": 783
+    },
+    {
+      "procedure": "usp_modified_book_storebook",
+      "category": "UPDATE",
+      "model": "gemma3",
+      "elapsed": 23.34,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 0.92,
+          "reason": "필수 패턴 3/3 충족 | 보너스 3/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "gold": {
+          "pass": true,
+          "score": 0.769,
+          "reason": "정답 대비 line≈80% ast≈68% → 합성 77%",
+          "line_ratio": 0.805,
+          "ast_ratio": 0.678
+        },
+        "style": {
+          "pass": true,
+          "score": 0.92,
+          "reason": "스타일 92% | 미충족: name_hint",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": true,
+            "name_hint": false
+          }
+        },
+        "total_score": 0.888,
+        "all_pass": true,
+        "all_pass_strict": true,
+        "summary": "총점 89% | 문법(O) 패턴(O) 논리(O) 정답(O) 스타일(O)"
+      },
+      "code_length": 832
+    },
+    {
+      "procedure": "usp_modified_book_storebook",
+      "category": "UPDATE",
+      "model": "qwen2.5-coder",
+      "elapsed": 21.66,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 0.92,
+          "reason": "필수 패턴 3/3 충족 | 보너스 3/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "gold": {
+          "pass": true,
+          "score": 0.772,
+          "reason": "정답 대비 line≈81% ast≈68% → 합성 77%",
+          "line_ratio": 0.808,
+          "ast_ratio": 0.679
+        },
+        "style": {
+          "pass": true,
+          "score": 0.92,
+          "reason": "스타일 92% | 미충족: name_hint",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": true,
+            "name_hint": false
+          }
+        },
+        "total_score": 0.889,
+        "all_pass": true,
+        "all_pass_strict": true,
+        "summary": "총점 89% | 문법(O) 패턴(O) 논리(O) 정답(O) 스타일(O)"
+      },
+      "code_length": 829
+    },
+    {
+      "procedure": "usp_modified_book_storebook",
+      "category": "UPDATE",
+      "model": "glm-4-flash",
+      "elapsed": 34.91,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 0.92,
+          "reason": "필수 패턴 3/3 충족 | 보너스 3/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "gold": {
+          "pass": true,
+          "score": 0.766,
+          "reason": "정답 대비 line≈80% ast≈69% → 합성 77%",
+          "line_ratio": 0.796,
+          "ast_ratio": 0.688
+        },
+        "style": {
+          "pass": true,
+          "score": 0.92,
+          "reason": "스타일 92% | 미충족: name_hint",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": true,
+            "name_hint": false
+          }
+        },
+        "total_score": 0.887,
+        "all_pass": true,
+        "all_pass_strict": true,
+        "summary": "총점 89% | 문법(O) 패턴(O) 논리(O) 정답(O) 스타일(O)"
+      },
+      "code_length": 831
+    },
+    {
+      "procedure": "usp_modified_authorbook_storebook",
+      "category": "UPDATE",
+      "model": "gemma3",
+      "elapsed": 23.62,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "필수 패턴 3/3 충족 | 보너스 4/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "gold": {
+          "pass": true,
+          "score": 0.746,
+          "reason": "정답 대비 line≈83% ast≈53% → 합성 75%",
+          "line_ratio": 0.83,
+          "ast_ratio": 0.531
+        },
+        "style": {
+          "pass": true,
+          "score": 0.92,
+          "reason": "스타일 92% | 미충족: name_hint",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": true,
+            "name_hint": false
+          }
+        },
+        "total_score": 0.887,
+        "all_pass": true,
+        "all_pass_strict": true,
+        "summary": "총점 89% | 문법(O) 패턴(O) 논리(O) 정답(O) 스타일(O)"
+      },
+      "code_length": 836
+    },
+    {
+      "procedure": "usp_modified_authorbook_storebook",
+      "category": "UPDATE",
+      "model": "qwen2.5-coder",
+      "elapsed": 21.74,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "필수 패턴 3/3 충족 | 보너스 4/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "gold": {
+          "pass": true,
+          "score": 0.746,
+          "reason": "정답 대비 line≈83% ast≈53% → 합성 75%",
+          "line_ratio": 0.83,
+          "ast_ratio": 0.531
+        },
+        "style": {
+          "pass": true,
+          "score": 0.92,
+          "reason": "스타일 92% | 미충족: name_hint",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": true,
+            "name_hint": false
+          }
+        },
+        "total_score": 0.887,
+        "all_pass": true,
+        "all_pass_strict": true,
+        "summary": "총점 89% | 문법(O) 패턴(O) 논리(O) 정답(O) 스타일(O)"
+      },
+      "code_length": 836
+    },
+    {
+      "procedure": "usp_modified_authorbook_storebook",
+      "category": "UPDATE",
+      "model": "glm-4-flash",
+      "elapsed": 33.11,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "필수 패턴 3/3 충족 | 보너스 4/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "gold": {
+          "pass": true,
+          "score": 0.745,
+          "reason": "정답 대비 line≈83% ast≈53% → 합성 74%",
+          "line_ratio": 0.829,
+          "ast_ratio": 0.531
+        },
+        "style": {
+          "pass": true,
+          "score": 0.92,
+          "reason": "스타일 92% | 미충족: name_hint",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": true,
+            "name_hint": false
+          }
+        },
+        "total_score": 0.887,
+        "all_pass": true,
+        "all_pass_strict": true,
+        "summary": "총점 89% | 문법(O) 패턴(O) 논리(O) 정답(O) 스타일(O)"
+      },
+      "code_length": 836
+    },
+    {
+      "procedure": "usp_delete_book_storebook",
+      "category": "DELETE+TRANSACTION",
+      "model": "gemma3",
+      "elapsed": 21.72,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "필수 패턴 3/3 충족 | 보너스 4/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "gold": {
+          "pass": false,
+          "score": 0.371,
+          "reason": "정답 대비 line≈49% ast≈7% → 합성 37%",
+          "line_ratio": 0.487,
+          "ast_ratio": 0.072
+        },
+        "style": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "스타일 100% | 미충족: 없음",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": true,
+            "name_hint": true
+          }
+        },
+        "total_score": 0.761,
+        "all_pass": true,
+        "all_pass_strict": false,
+        "summary": "총점 76% | 문법(O) 패턴(O) 논리(O) 정답(X) 스타일(O)"
+      },
+      "code_length": 834
+    },
+    {
+      "procedure": "usp_delete_book_storebook",
+      "category": "DELETE+TRANSACTION",
+      "model": "qwen2.5-coder",
+      "elapsed": 24.61,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 0.92,
+          "reason": "필수 패턴 3/3 충족 | 보너스 3/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "gold": {
+          "pass": false,
+          "score": 0.332,
+          "reason": "정답 대비 line≈43% ast≈8% → 합성 33%",
+          "line_ratio": 0.432,
+          "ast_ratio": 0.075
+        },
+        "style": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "스타일 100% | 미충족: 없음",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": true,
+            "name_hint": true
+          }
+        },
+        "total_score": 0.738,
+        "all_pass": true,
+        "all_pass_strict": false,
+        "summary": "총점 74% | 문법(O) 패턴(O) 논리(O) 정답(X) 스타일(O)"
+      },
+      "code_length": 973
+    },
+    {
+      "procedure": "usp_delete_book_storebook",
+      "category": "DELETE+TRANSACTION",
+      "model": "glm-4-flash",
+      "elapsed": 66.54,
+      "eval": {
+        "syntax": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "함수 1개 정상 파싱"
+        },
+        "pattern": {
+          "pass": true,
+          "score": 0.92,
+          "reason": "필수 패턴 3/3 충족 | 보너스 3/4",
+          "details": {
+            "ProcedureResult 반환 타입 사용": true,
+            "try/except 오류 처리": true,
+            "get_db_cursor() DB 컨텍스트 매니저 사용": true
+          }
+        },
+        "logic": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "success 일치"
+        },
+        "gold": {
+          "pass": false,
+          "score": 0.141,
+          "reason": "정답 대비 line≈17% ast≈7% → 합성 14%",
+          "line_ratio": 0.168,
+          "ast_ratio": 0.071
+        },
+        "style": {
+          "pass": true,
+          "score": 1.0,
+          "reason": "스타일 100% | 미충족: 없음",
+          "details": {
+            "syntax_valid": true,
+            "parameterized": true,
+            "try_except": true,
+            "get_db_cursor": true,
+            "procedure_result": true,
+            "no_dangerous": true,
+            "placeholder_balance": true,
+            "name_hint": true
+          }
+        },
+        "total_score": 0.666,
+        "all_pass": true,
+        "all_pass_strict": false,
+        "summary": "총점 67% | 문법(O) 패턴(O) 논리(O) 정답(X) 스타일(O)"
+      },
+      "code_length": 856
+    }
+  ]
+}
