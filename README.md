@@ -1,4 +1,4 @@
-# BookStore SQL → Python Few-shot 벤치마크
+# SQL → Python Few-shot 벤치마크
 
 ## 목적
 
@@ -8,7 +8,7 @@
 - **출력**: 각 모델이 생성한 Python 코드.
 - **비교**: Gemma / Qwen / GLM(논리 이름) 등 **여러 모델**을 같은 SQL·같은 프롬프트로 돌린 뒤, **문법·패턴·Mock 논리·정답 유사도·스타일**을 합쳐 점수화합니다.
 
-처음 보는 사람은 **「SQL→Python 변환 품질을 모델별로 재현 가능하게 재는 도구」**라고 이해하면 됩니다.
+**「SQL→Python 변환 품질을 모델별로 재현 가능하게 재는 도구」**라고 이해하면 됩니다.
 
 ---
 
@@ -68,15 +68,8 @@ SQL--Python/
 ## 필수 환경 및 설치
 
 - **Python** 3.10 이상 권장 (표준 라이브러리 `ast.unparse` 등 사용).
-- **의존성**: 저장소 루트에서  
-  `pip install -r requirements.txt`  
-  (`pyodbc`, `python-dotenv`, `pytest`, `requests` 등).
-- **Ollama** (기본 워크플로): 로컬 또는 원격에서 API 서버가 떠 있어야 합니다.  
-  - 기본 URL: `http://localhost:11434`  
-  - 다른 포트/원격이면 환경변수 `OLLAMA_BASE_URL` (예: `http://127.0.0.1:11435`).
-- **GPU**: 필수는 아님. Ollama가 GPU를 쓰는지는 Ollama 쪽 설정에 따름.
-- **API 키**: 기본 설정은 **세 모델 모두 Ollama**라 **Zhipu·Hugging Face 키 불필요**. 클라우드 GLM만 쓸 때 `GLM_API_KEY` + `MODEL_CONFIG`에서 `type: "glm"` 항목을 따로 두는 방식.
-
+- **Ollama**: 로컬 또는 원격에서 API 서버가 떠 있어야 합니다.  
+  
 선택적으로 프로젝트 루트에 `.env`를 두면 `run_benchmark.py`가 로드합니다.
 
 ```env
@@ -84,8 +77,6 @@ OLLAMA_BASE_URL=http://127.0.0.1:11435
 OLLAMA_MODEL_GEMMA3=gemma3:27b
 OLLAMA_MODEL_QWEN2_5_CODER=qwen2.5-coder:32b
 OLLAMA_MODEL_GLM=glm-4.7-flash:Q4_K_M
-OLLAMA_NUM_PREDICT=4096
-OLLAMA_GENERATE_TIMEOUT=600
 ```
 
 ---
@@ -219,8 +210,3 @@ usp_get_books_storebook           78% [O] (25s)    76% [O] (32s)    74% [X] (22s
 - **Ollama 404 / 모델 없음**: `setup_ollama_models.py`, `OLLAMA_MODEL_*`, `MODEL_CONFIG`의 태그를 `ollama list`와 일치시키기.
 - **정답 유사도가 낮은데 동작은 맞아 보임**: 다른 함수명·다른 분기 구조면 정상적으로 점수가 낮을 수 있음. 필요 시 가중치나 `PROCEDURE_GOLD` 매핑을 조정.
 
----
-
-## 라이선스·저장소
-
-원격 저장소 주소는 Git `origin` 설정을 따릅니다. (예: `https://github.com/eunbijoel/SQL--Python.git`)
